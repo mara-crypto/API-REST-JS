@@ -20,7 +20,7 @@ def run_scraping():
             hasNextPage = True
             pageNumber = 1
 
-            while hasNextPage and pageNumber < 100:
+            while hasNextPage and pageNumber < 5:
                 print('Page', pageNumber)
 
                 # Attendre que les annonces se chargent
