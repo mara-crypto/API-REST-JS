@@ -16,7 +16,7 @@ async function runScraping() {
     let pageNumber = 1;
     let tab = [];
 
-    while (hasNextPage && pageNumber <= 500) {
+    while (hasNextPage && pageNumber <= 300) {
       console.log('Page', pageNumber);
 
       // Attendre que les annonces se chargent
@@ -30,7 +30,8 @@ async function runScraping() {
         let image = await adCard.findElement(By.className('ad__card-img')).getAttribute('src');
         let title = await adCard.findElement(By.className('ad__card-description')).getText();
         let price = await adCard.findElement(By.className('ad__card-price')).getText();
-        let location = await adCard.findElement(By.className('ad__card-location')).getText();
+        let location_on = await adCard.findElement(By.className('ad__card-location')).getText();
+        let location = location_on.replace('location_on\n', '')
 
         tab.push({ title, price, location, image });
       }
