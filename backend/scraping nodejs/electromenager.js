@@ -32,9 +32,11 @@ async function runScraping() {
       for (let adCard of adCards) {
         let image = await adCard.findElement(By.className('ad__card-img')).getAttribute('src');
         let price = await adCard.findElement(By.className('ad__card-price')).getText();
-        let description = await adCard.findElement(By.className('ad__card-description')).getText();
+        let des = await adCard.findElement(By.className('ad__card-description')).getText();
+        let desc = des.replace(`\"`,'-');
+        let description = desc.replace("''",'');
         let location_on = await adCard.findElement(By.className('ad__card-location')).getText();
-        let location = location_on.replace('location_on\n','')
+        let location = location_on.replace('location_on\n', '')
 
         // Créer un objet avec les données de l'annonce
         let adData = {
