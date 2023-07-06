@@ -5,7 +5,8 @@ CREATE TABLE electronique (
     title TEXT,
     price TEXT,
     location TEXT,
-    image TEXT
+    image TEXT,
+    etat BOOLEAN DEFAULT TRUE
 );
 
 CREATE TABLE electromenager (
@@ -13,7 +14,8 @@ CREATE TABLE electromenager (
     title TEXT,
     price TEXT,
     location TEXT,
-    image TEXT
+    image TEXT,
+    etat BOOLEAN DEFAULT TRUE
 );
 
 CREATE TABLE immobilier (
@@ -21,21 +23,26 @@ CREATE TABLE immobilier (
     title TEXT,
     price TEXT,
     location TEXT,
-    image TEXT
+    image TEXT,
+    etat BOOLEAN DEFAULT TRUE
 );
 
-CREATE TABLE admin (
+CREATE TABLE utilisateur (
     id SERIAL PRIMARY KEY,
     full_name TEXT,
     mail TEXT,
-    password TEXT
+    password TEXT,
+    role TEXT
 );
 
-CREATE TABLE editeur (
+CREATE TABLE proposition (
     id SERIAL PRIMARY KEY,
-    full_name TEXT,
-    mail TEXT,
-    password TEXT
+    type TEXT,
+    statut TEXT DEFAULT "En attente",
+    id_electronique INTEGER REFERENCES electronique(id),
+    id_electromenager INTEGER REFERENCES electromenager(id),
+    id_immobilier INTEGER REFERENCES immobilier(id),
+    id_utilisateur INTEGER REFERENCES utilisateur(id)
 );
 
 
@@ -53,7 +60,7 @@ with open(filename, "w") as file:
     file.write("\n\n\n-- Insertion des donnees du fichier senemarket_electronique.json dans la table electronique \n")
     with open(json_senemarket_electronique, "r") as json_file:
         json_data = json.load(json_file)
-        query_data = "INSERT INTO electronique (title, price, location, image) VALUES\n"
+        query_data = "INSERT INTO electronique (id, title, price, location, image) VALUES\n"
         for index, elt in enumerate(json_data, start=1):
             values = """({0}, "{1}", "{2}", "{3}", "{4}")""".format(index, elt["title"], elt["price"], elt["location"], elt["image"])
             if index != len(json_data):
@@ -66,9 +73,9 @@ with open(filename, "w") as file:
     file.write("\n\n\n-- Insertion des donnees du fichier coinafrique_electronique.json dans la table electronique \n")
     with open(json_coinafrique_electronique, "r") as json_file:
         electronique = json.load(json_file)
-        query_electronique = "INSERT INTO electronique (title, price, location, image) VALUES\n"
-        for index, elt in enumerate(electronique, start=1):
-            values = """("{0}", "{1}", "{2}", "{3}")""".format(elt["title"], elt["price"], elt["location"], elt["image"])
+        query_electronique = "INSERT INTO electronique (id, title, price, location, image) VALUES\n"
+        for index, elt in enumerate(electronique, start=int(len(json_data)+1)):
+            values = """({0}, "{1}", "{2}", "{3}", "{4}")""".format(index, elt["title"], elt["price"], elt["location"], elt["image"])
             if index != len(electronique):
                 values += ","
             query_electronique += values + "\n"
@@ -79,9 +86,9 @@ with open(filename, "w") as file:
     file.write("\n\n\n-- Insertion des donnees du fichier coinafrique_electronique.json dans la table electronique \n")
     with open(api_electronique, "r") as json_file:
         api_electronique = json.load(json_file)
-        query_api_electronique = "INSERT INTO electronique (title, price, image) VALUES\n"
-        for index, elt in enumerate(api_electronique, start=1):
-            values = """("{0}", "{1}", "{2}")""".format(elt["title"], elt["price"], elt["image"])
+        query_api_electronique = "INSERT INTO electronique (id, title, price, image) VALUES\n"
+        for index, elt in enumerate(api_electronique, start=int(len(json_data)+1+len(electronique))):
+            values = """({0}, "{1}", "{2}", "{3}")""".format(index, elt["title"], elt["price"], elt["image"])
             if index != len(api_electronique):
                 values += ","
             query_api_electronique += values + "\n"
