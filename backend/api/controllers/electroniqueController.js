@@ -26,14 +26,16 @@ const getElectroniqueById = async (req, res) => {
 
 
 // Fonction pour ajouter un nouveau produit électronique.
-const postNewElectronique = async (req, res) =>{
+const postNewElectronique = async (req, res) => {
     try {
-        const { new } = req.params;
-        const electroniqueNew = await electroniqueService.postNewElectronique( new );
+      const { title, price, location, image } = req.body;
+      const electroniqueNew = await electroniqueService.postNewElectronique(title, price, location, image);
+      res.status(201).json(electroniqueNew);
     } catch (error) {
-        res.status(500).json({ error : "Une erreur est survenue lors de la récupération du produits électroniques."})
+      res.status(500).json({ error: "Une erreur est survenue lors de l'ajout du nouveau produit électronique." });
     }
-};
+  };
+  
 
 
 // Autres fonctions de contrôleur pour la création, la mise à jour et la suppression des produits électroniques
@@ -41,5 +43,6 @@ const postNewElectronique = async (req, res) =>{
 module.exports = {
   getAllElectroniques,
   getElectroniqueById,
+  postNewElectronique,
   // Exportez les autres fonctions de contrôleur nécessaires
 };
