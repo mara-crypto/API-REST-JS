@@ -28,8 +28,8 @@ const getElectroniqueById = async (req, res) => {
 // Fonction pour ajouter un nouveau produit électronique.
 const postNewElectronique = async (req, res) =>{
     try {
-        const { new } = req.params;
-        const electroniqueNew = await electroniqueService.postNewElectronique( new );
+        const { newProduct } = req.params;
+        const electroniqueNew = await electroniqueService.postNewElectronique( newProduct );
     } catch (error) {
         res.status(500).json({ error : "Une erreur est survenue lors de la récupération du produits électroniques."})
     }
