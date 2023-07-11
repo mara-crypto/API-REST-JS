@@ -1,6 +1,8 @@
 const http = require('http');
 const express = require('express');
 const electroniqueRoutes = require('./routes/electroniqueRoutes');
+const immobilierRoutes = require('./routes/immobilierRoutes');
+
 const { error } = require('console');
 
 
@@ -13,7 +15,7 @@ app.use(express.json());
 // Routes pour les différentes ressources
 app.use('/api/electroniques', electroniqueRoutes);
 // app.use('/api/electromenagers', electromenagerRoutes);
-// app.use('/api/immobiliers', immobilierRoutes);
+app.use('/api/immobilier', immobilierRoutes);
 
 
 const normalizePort = val => {

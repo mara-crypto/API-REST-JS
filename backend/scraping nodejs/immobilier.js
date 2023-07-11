@@ -1,12 +1,8 @@
-const fs = require('fs');
 const { Builder, By, Key, until } = require('selenium-webdriver');
-const { Options } = require('selenium-webdriver/firefox');
+const fs = require('fs');
 
 async function initializeDriver() {
-  let options = new Options();
-  options.headless(); // Exécution en mode headless (sans interface graphique)
-
-  let driver = await new Builder().forBrowser('firefox').setFirefoxOptions(options).build();
+  let driver = await new Builder().forBrowser('firefox').build();
   return driver;
 }
 
@@ -16,14 +12,15 @@ async function runScraping() {
   try {
     await driver.get('https://sn.coinafrique.com/categorie/immobilier');
 
-    // Attendre que les annonces se chargent
-    await driver.wait(until.elementLocated(By.className('row adcard__listing')), 5000);
-
+    let hasNextPage = true;
     let pageNumber = 1;
-    let data = []; // Tableau pour stocker les données des annonces
+    let tab = [];
 
-    while (true && pageNumber<30) {
-      console.log(`Page ${pageNumber}`);
+    while (hasNextPage && pageNumber <= 300) {
+      console.log('Page', pageNumber);
+
+      // Attendre que les annonces se chargent
+      await driver.wait(until.elementLocated(By.className('col s6 m4 l3')), 100);
 
       // Récupérer tous les éléments d'annonce
       let adCards = await driver.findElements(By.className('col s6 m4 l3'));
@@ -31,45 +28,38 @@ async function runScraping() {
       // Parcourir les annonces et extraire les informations souhaitées
       for (let adCard of adCards) {
         let image = await adCard.findElement(By.className('ad__card-img')).getAttribute('src');
+        let title = await adCard.findElement(By.className('ad__card-description')).getText();
         let price = await adCard.findElement(By.className('ad__card-price')).getText();
-        let description = await adCard.findElement(By.className('ad__card-description')).getText();
         let location_on = await adCard.findElement(By.className('ad__card-location')).getText();
-        let location = location_on.replace('location_on\n','')
-        
-        // Créer un objet avec les données de l'annonce
-        let adData = {
-          image: image,
-          price: price,
-          description: description,
-          location: location
-        };
+        let location = location_on.replace('location_on\n', '')
 
-        // Ajouter l'objet au tableau des données
-        data.push(adData);
-
-        console.log('Image :', image);
-        console.log('Prix :', price);
-        console.log('Description :', description);
-        console.log('Location :', location);
-        console.log('-----------------------------------');
+        tab.push({ title, price, location, image });
       }
 
-      // Vérifier s'il existe une page suivante
+      // Vérifier s'il y a une page suivante
       let nextPageButton = await driver.findElement(By.className('next'));
+      hasNextPage = await nextPageButton.isEnabled();
 
-      if (await nextPageButton.isEnabled()) {
-        pageNumber++;
-        await nextPageButton.click();
-        // await driver.wait(until.stalenessOf(adCards[0]), 10000);
-      } else {
-        break; // Sortir de la boucle si aucune page suivante n'est disponible
+      // Si une page suivante existe, cliquer dessus
+      if (hasNextPage) {
+        await driver.executeScript("arguments[0].click();", nextPageButton);
+
+        // Attendre que la nouvelle page se charge
+        await driver.wait(until.elementLocated(By.className('col s6 m4 l3')), 1000);
       }
+
+      pageNumber++;
     }
 
-    // Enregistrer les données dans un fichier JSON
-    let jsonData = JSON.stringify(data, null, 2); // Formater les données avec 2 espaces d'indentation
-    fs.writeFileSync('immobilier.json', jsonData);
-    console.log('Données enregistrées dans immobilier.json');
+    let jsonData = JSON.stringify(tab);
+
+    fs.writeFile('coinafrique_immobilier.json', jsonData, 'utf8', (err) => {
+      if (err) {
+        console.error('Une erreur s\'est produite lors de l\'écriture du fichier JSON :', err);
+        return;
+      }
+      console.log('Les données ont été enregistrées dans le fichier JSON avec succès.');
+    });
   } finally {
     await driver.quit();
   }
