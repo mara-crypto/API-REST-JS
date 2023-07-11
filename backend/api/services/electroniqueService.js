@@ -38,19 +38,24 @@ const getElectroniqueById = async (id) => {
 
 
 //  Fonctions pour ajouter un nouveau produit dans la bases
-const posttElectronique = async (title, price, location, image) => {
+const postNewElectronique = async (title, price, location, image) => {
   try {
-    const query = `INSERT INTO electronique (title, price, location, image) VALUES (${title}, ${price}, ${location}, ${image})`;
-    const result = await pool.query(query)
-    console.log("insertions fait avec succes");
-
+    const query = 'INSERT INTO electronique (title, price, location, image) VALUES ($1, $2, $3, $4)';
+    const values = [title, price, location, image];
+    const result = await pool.query(query, values);
+    console.log("Insertion des données dans la base avec succès");
+    return result.rows;
+  } catch (error) {
+    throw new Error("Une erreur est survenue lors de l'ajout du produit électronique dans la base de données.");
   }
 };
+
 
 // Autres fonctions pour la création, la mise à jour et la suppression des produits électroniques
 
 module.exports = {
   getAllElectroniques,
   getElectroniqueById,
+  postNewElectronique,
   // Exportez les autres fonctions nécessaires
 };
