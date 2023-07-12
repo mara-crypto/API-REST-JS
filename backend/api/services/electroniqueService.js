@@ -30,9 +30,9 @@ const getElectroniqueById = async (id) => {
     const query = 'SELECT * FROM electronique WHERE id = $1;';
     const result = await pool.query(query, [id]);
     console.log(`Récupération de l'objet avec l'identifiant ${id}`);
-    return result.rows;
+    return result.rows[0];
   } catch (error) {
-    throw new Error("Une erreur est survenue lors de la récupération du produit électronique depuis la base de données.");
+    throw new Error('Une erreur est survenue lors de la récupération du produit électronique depuis la base de données.');
   }
 };
 
@@ -40,16 +40,40 @@ const getElectroniqueById = async (id) => {
 //  Fonctions pour ajouter un nouveau produit dans la bases
 const postNewElectronique = async (title, price, location, image) => {
   try {
-    const query = 'INSERT INTO electronique (title, price, location, image) VALUES ($1, $2, $3, $4)';
+    const query = 'INSERT INTO electronique (title, price, location, image) VALUES ($1, $2, $3, $4) RETURNING *';
     const values = [title, price, location, image];
     const result = await pool.query(query, values);
-    console.log("Insertion des données dans la base avec succès");
-    return result.rows;
+    return result.rows[0];
   } catch (error) {
-    throw new Error("Une erreur est survenue lors de l'ajout du produit électronique dans la base de données.");
+    throw new Error('Une erreur est survenue lors de la création du nouveau produit électronique.');
   }
 };
 
+//  Fonctions pour modifier un produit dans la bases
+const putElectronique = async (title, price, location, image, id) => {
+  try {
+    const query = 'UPDATE electronique SET title = $1, price = $2, location = $3, image = $4 WHERE id = $5 RETURNING *';
+    const values = [title, price, location, image, id];
+    const result = await pool.query(query, values);
+    return result.rows[0];
+  } catch (error) {
+    throw new Error('Une erreur est survenue lors de la mise à jour du produit électronique.');
+  }
+};
+
+
+
+//  Fonctions pour Supprimer un produit dans la bases
+const deleteElectronique = async (id) => {
+  try {
+    const query = 'DELETE FROM electronique WHERE id = $1 RETURNING *';
+    const values = [id];
+    const result = await pool.query(query, values);
+    return result.rows[0];
+  } catch (error) {
+    throw new Error('Une erreur est survenue lors de la suppression du produit électronique.');
+  }
+};
 
 // Autres fonctions pour la création, la mise à jour et la suppression des produits électroniques
 
@@ -57,5 +81,6 @@ module.exports = {
   getAllElectroniques,
   getElectroniqueById,
   postNewElectronique,
-  // Exportez les autres fonctions nécessaires
+  putElectronique,
+  deleteElectronique,
 };
