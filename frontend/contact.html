@@ -190,6 +190,23 @@
                                 <h6 class="section-title text-start text-primary text-uppercase">Technique</h6>
                                 <p><i class="fa fa-envelope-open text-primary me-2"></i>tech@example.com</p>
                             </div>
+                            <div id="dataContainer"></div>
+
+                            <!-- <div>
+                                 
+                                function afficheDatas(data) {
+                                    data.map(function(produit, index) {
+                                    document
+                                        .querySelector(".product_sheet_camera")
+                                        .insertAdjacentHTML("beforebegin","<div id='"+produit._id+"'>"
+                                        +"<p>Image :<img src='"+produit.imageUrl+"' alt='image_produit' /></p>"
+                                        +"<p>Lenses :"+produit.lenses.join(" , ")+"</p>"
+                                        +"<p>Name :"+produit.name+"</p>"
+                                        +"<p>Price :"+produit.price+"</p>"
+                                        +"</div>");
+                                    });
+                                }
+                            </div> -->
                         </div>
                     </div>
                     <div class="col-md-6 wow fadeIn" data-wow-delay="0.1s">
@@ -347,6 +364,34 @@
 
     <!-- Template Javascript -->
     <script src="js/main.js"></script>
+
+    <script>
+        async function fetchAndDisplayData() {
+            try {
+                const response = await fetch('http://localhost:3000/api/electromenager');
+                if (response.ok) {
+                    const data = await response.json();
+
+                    const dataContainer = document.querySelector('#dataContainer');
+
+                    let html = '';
+                    data.forEach((item) => {
+                        html += `<p>${item.name} - ${item.brand} - ${item.price}</p>`;
+                    });
+
+                    dataContainer.innerHTML = html;
+                } else {
+                    throw new Error('Erreur lors de la récupération des données de l\'API');
+                }
+            } catch (error) {
+                console.error(error);
+            }
+        }
+        fetchAndDisplayData();
+
+    </script>
+
+    
 </body>
 
 </html>
