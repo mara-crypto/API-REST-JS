@@ -2,9 +2,9 @@ const { Pool } = require('pg');
 
 const pool = new Pool({
   user: 'postgres',
-  host: 'localhost',
-  database: 'API',
-  password: '123',
+  host: '127.0.0.1',
+  database: 'api',
+  password: '12345',
   port: 5432, // Votre port PostgreSQL
 });
 
@@ -21,9 +21,9 @@ const electromenagerService = {
 
   async create(data) {
     try {
-      const { name, brand, price } = data;
-      const query = 'INSERT INTO electromenager (name, brand, price) VALUES ($1, $2, $3) RETURNING *';
-      const values = [name, brand, price];
+      const {title, price, location, image } = data;
+      const query = 'INSERT INTO electromenager (title, price, location, image) VALUES ($1, $2, $3, $4) RETURNING *';
+      const values = [title, price, location, image];
       const result = await pool.query(query, values);
       return result.rows[0];
     } catch (error) {
@@ -47,10 +47,10 @@ const electromenagerService = {
 
   async update(id, data) {
     try {
-      const { name, brand, price } = data;
+      const { title, price, location, image } = data;
       const query =
-        'UPDATE electromenager SET name = $1, brand = $2, price = $3 WHERE id = $4 RETURNING *';
-      const values = [name, brand, price, id];
+        'UPDATE electromenager SET title = $1, price = $2, location = $3, image = $4 WHERE id = $5 RETURNING *';
+      const values = [title, price, location, image, id];
       const result = await pool.query(query, values);
       if (result.rows.length === 0) {
         throw new Error('Aucun électroménager trouvé avec cet ID');
