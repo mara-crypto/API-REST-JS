@@ -1,22 +1,20 @@
-const http = require('http');
 const express = require('express');
+const http = require('http');
+const cors = require('cors');
+
 const electroniqueRoutes = require('./routes/electroniqueRoutes');
 const immobilierRoutes = require('./routes/immobilierRoutes');
-
-const { error } = require('console');
-
 
 const app = express();
 const server = http.createServer(app);
 
-
+app.use(cors());
 app.use(express.json());
 
 // Routes pour les différentes ressources
 app.use('/api/electroniques', electroniqueRoutes);
 // app.use('/api/electromenagers', electromenagerRoutes);
 app.use('/api/immobilier', immobilierRoutes);
-
 
 const normalizePort = val => {
   const port = parseInt(val, 10);
@@ -51,8 +49,6 @@ const errorHandler = error => {
       throw error;
   }
 };
-
-// const server = http.createServer(app);
 
 server.on('error', errorHandler);
 server.on('listening', () => {
