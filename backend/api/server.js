@@ -19,8 +19,6 @@ app.use(express.json());
 app.use('/api/electroniques', electroniqueRoutes);
 app.use('/api/immobilier', immobilierRoutes);
 app.use('/api/electromenager', electromenagerRoutes);
-
-
 app.use('/api/user', userRoute)
 // ...authentification
 app.use('/api/auth', authRoutes);
