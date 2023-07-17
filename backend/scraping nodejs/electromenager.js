@@ -23,7 +23,7 @@ async function runScraping() {
     let data = []; // Tableau pour stocker les données des annonces
 
     while (true && pageNumber<30) {
-      console.log(`Page ${pageNumber}`);
+      //console.log(`Page ${pageNumber}`);
 
       // Récupérer tous les éléments d'annonce
       let adCards = await driver.findElements(By.className('col s6 m4 l3'));

@@ -1,7 +1,10 @@
 const express = require('express');
 const http = require('http');
 const cors = require('cors');
+const path = require('path');
 
+
+const electromenagerRoutes = require('./routes/electromenagerRoutes');
 const electroniqueRoutes = require('./routes/electroniqueRoutes');
 const immobilierRoutes = require('./routes/immobilierRoutes');
 const userRoute = require('./routes/userRoute');
@@ -12,11 +15,15 @@ const server = http.createServer(app);
 app.use(cors());
 app.use(express.json());
 
+// Configurer le middleware pour servir les fichiers statiques du dossier front-end
+app.use(express.static(path.join(__dirname, '../frontend')));
+
+
 // Routes pour les différentes ressources
 app.use('/api/electroniques', electroniqueRoutes);
 // app.use('/api/electromenagers', electromenagerRoutes);
 app.use('/api/immobilier', immobilierRoutes);
-
+app.use('/api/electromenager', electromenagerRoutes);
 app.use('/api/user', userRoute)
 
 const normalizePort = val => {
