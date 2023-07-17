@@ -25,7 +25,7 @@ app.use(express.static(path.join(__dirname, '../frontend')));
 app.use('/api/electroniques', electroniqueRoutes);
 app.use('/api/immobilier', immobilierRoutes);
 app.use('/api/electromenager', electromenagerRoutes);
-app.use('/api/user', userRoute)
+app.use('/api/user', userRoute);
 // ...authentification
 app.use('/api/auth', authRoutes);
 

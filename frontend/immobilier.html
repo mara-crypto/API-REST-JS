@@ -94,7 +94,16 @@
                                 </div>
                                 <a href="contact.html" class="nav-item nav-link">Contact</a>
                             </div>
-                            <a href="login.html" class="btn btn-primary rounded-0 py-4 px-md-5">Se Connecter</a>
+                            <div class="dropdown btn btn-primary rounded-0 py-4 px-md-5" id="username_deconnecter" style="display: none; margin-right: 2%;">
+                                <button id="username" class="btn btn-secondary dropdown-toggle" type="button" data-bs-toggle="dropdown" aria-expanded="false"></button>
+                                <ul class="dropdown-menu dropdown-menu-dark">
+                                  <li><a class="dropdown-item active" href="#">Mon Profil</a></li>
+                                  <li><hr class="dropdown-divider"></li>
+                                  <li><a class="dropdown-item" id="deconnecter" href="#">Se Deconnecter</a></li>
+                                </ul>
+                            </div>
+                            <!-- <a href="electronique.html" class="btn btn-primary rounded-0 py-4 px-md-5" id="username" style="display: none; margin-right: 2%;"></a> -->
+                            <a href="login.html" class="btn btn-primary rounded-0 py-4 px-md-5" id="se_connecter">Se Connecter</a>
                         </div>
                     </nav>
                 </div>
@@ -244,6 +253,8 @@
     <!-- Template Javascript -->
     <script src="js/main.js"></script>
     <script src="js/immobilier.js"></script>
+    <script src="js/token.js"></script>
+
 </body>
 
 </html>

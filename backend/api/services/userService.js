@@ -5,10 +5,10 @@ const bcrypt = require('bcrypt');
 // Configuration de la connexion à la base de données PostgreSQL
 const pool = new Pool({
     user: 'postgres',
-    password: '026470Diop',
+    password: '12345',
     host: '127.0.0.1',
     port: 5432, // Le port par défaut de PostgreSQL est 5432
-    database: 'API',
+    database: 'api',
   });
   const postUser = async (mail) => {
     try {
