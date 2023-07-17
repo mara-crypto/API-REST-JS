@@ -4,9 +4,7 @@ const cors = require('cors');
 
 const electroniqueRoutes = require('./routes/electroniqueRoutes');
 const immobilierRoutes = require('./routes/immobilierRoutes');
-const authRoutes = require('./routes/authRoutes');
-
-
+const userRoute = require('./routes/userRoute');
 
 const app = express();
 const server = http.createServer(app);
@@ -16,10 +14,10 @@ app.use(express.json());
 
 // Routes pour les différentes ressources
 app.use('/api/electroniques', electroniqueRoutes);
+// app.use('/api/electromenagers', electromenagerRoutes);
 app.use('/api/immobilier', immobilierRoutes);
-// ...authentification
-app.use('/api/auth', authRoutes);
 
+app.use('/api/user', userRoute)
 
 const normalizePort = val => {
   const port = parseInt(val, 10);
