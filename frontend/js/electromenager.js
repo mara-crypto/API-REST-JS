@@ -32,7 +32,7 @@ document.addEventListener('DOMContentLoaded', () => {
           propertyList.appendChild(propertyItem);
         });
       } catch (error) {
-        console.error('Erreur lors de la récupération des biens immobiliers :', error);
+        console.error('Erreur lors de la récupération des :', error);
       }
     };
   
