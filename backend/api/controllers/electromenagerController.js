@@ -11,7 +11,7 @@ const electromenagerController = {
     }
   },
 
-  // Créer un nouvel électroménager
+  // Créer un nouvau électroménager
   async create(req, res) {
     try {
       const data = req.body;
