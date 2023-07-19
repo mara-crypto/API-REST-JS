@@ -7,6 +7,7 @@ const modificationRoutes = require('./routes/modificationRoutes'); // Importer l
 const suppressionRoutes = require('./routes/suppressionRoutes'); // Importer les routes de suppression
 
 const electroniqueRoutes = require('./routes/electroniqueRoutes');
+const electromenagerRoutes = require('./routes/electromenagerRoutes');
 const immobilierRoutes = require('./routes/immobilierRoutes');
 const userRoute = require('./routes/userRoute');
 const authRoutes = require('./routes/authRoutes');

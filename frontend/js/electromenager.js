@@ -5,8 +5,7 @@ document.addEventListener('DOMContentLoaded', () => {
     try {
       const response = await fetch('http://localhost:3000/api/electromenager');
       const data = await response.json();
-      console.log(data);
-
+      
       data.forEach(property => {
         const propertyItem = document.createElement('div');
         propertyItem.className = 'col-lg-4 col-md-6 wow fadeInUp';
