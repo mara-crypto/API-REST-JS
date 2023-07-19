@@ -117,7 +117,7 @@ function saveChanges(propertyId) {
   const token = localStorage.getItem("token");
   const decodedToken = parseJwt(token)
 
-  const id_user = decodedToken.id_user
+  const id_editeur = decodedToken.id_user
   const service = "electromenager";
 
   const formData = {
@@ -125,7 +125,7 @@ function saveChanges(propertyId) {
     price,
     location,
     image,
-    id_user,
+    id_editeur,
     id_bien,
     service
   };
@@ -154,12 +154,12 @@ function supprimerProduit(propertyId) {
     const token = localStorage.getItem("token");
     const decodedToken = parseJwt(token)
   
-    const id_user = decodedToken.id_user
+    const id_editeur = decodedToken.id_user
     const service = "electromenager";
   
     const data_ = {
-      id_user,
       id_bien,
+      id_editeur,
       service
     }; 
     fetch('http://localhost:3000/api/suppression', {

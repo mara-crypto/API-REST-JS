@@ -5,7 +5,6 @@ document.addEventListener('DOMContentLoaded', () => {
     try {
       const response = await fetch('http://localhost:3000/api/immobilier');
       const data = await response.json();
-      console.log(data);
 
       data.forEach(property => {
         const propertyItem = document.createElement('div');
@@ -118,7 +117,7 @@ function saveChanges(propertyId) {
   const token = localStorage.getItem("token");
   const decodedToken = parseJwt(token)
 
-  const id_user = decodedToken.id_user
+  const id_editeur = decodedToken.id_user
   const service = "immobilier";
 
   const formData = {
@@ -126,7 +125,7 @@ function saveChanges(propertyId) {
     price,
     location,
     image,
-    id_user,
+    id_editeur,
     id_bien,
     service
   };
@@ -155,11 +154,11 @@ function supprimerProduit(propertyId) {
     const token = localStorage.getItem("token");
     const decodedToken = parseJwt(token)
   
-    const id_user = decodedToken.id_user
+    const id_editeur = decodedToken.id_user
     const service = "immobilier";
   
     const data_ = {
-      id_user,
+      id_editeur,
       id_bien,
       service
     }; 
