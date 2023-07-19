@@ -9,6 +9,7 @@ const electroniqueRoutes = require('./routes/electroniqueRoutes');
 const immobilierRoutes = require('./routes/immobilierRoutes');
 const userRoute = require('./routes/userRoute');
 const authRoutes = require('./routes/authRoutes');
+const Proposition = require('./routes/propositionRoute');
 
 
 const app = express();
@@ -28,6 +29,8 @@ app.use('/api/electromenager', electromenagerRoutes);
 app.use('/api/user', userRoute)
 // ...authentification
 app.use('/api/auth', authRoutes);
+app.use('/api/proposition', Proposition);
+
 
 
 
