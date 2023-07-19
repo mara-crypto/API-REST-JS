@@ -3,8 +3,9 @@ const http = require('http');
 const cors = require('cors');
 const path = require('path');
 
+const modificationRoutes = require('./routes/modificationRoutes'); // Importer les routes de modification
+const suppressionRoutes = require('./routes/suppressionRoutes'); // Importer les routes de suppression
 
-const electromenagerRoutes = require('./routes/electromenagerRoutes');
 const electroniqueRoutes = require('./routes/electroniqueRoutes');
 const immobilierRoutes = require('./routes/immobilierRoutes');
 const userRoute = require('./routes/userRoute');
@@ -18,13 +19,14 @@ app.use(express.json());
 // Configurer le middleware pour servir les fichiers statiques du dossier front-end
 app.use(express.static(path.join(__dirname, '../frontend')));
 
-
 // Routes pour les différentes ressources
 app.use('/api/electroniques', electroniqueRoutes);
-// app.use('/api/electromenagers', electromenagerRoutes);
 app.use('/api/immobilier', immobilierRoutes);
-app.use('/api/electromenager', electromenagerRoutes);
-app.use('/api/user', userRoute)
+app.use('/api/user', userRoute);
+
+// Routes pour la modification et la suppression des biens immobiliers
+app.use('/api/modification', modificationRoutes);
+app.use('/api/suppression', suppressionRoutes);
 
 const normalizePort = val => {
   const port = parseInt(val, 10);
