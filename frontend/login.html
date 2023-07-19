@@ -15,40 +15,41 @@
     </style>
 </head>
 <body>
-      <div class="box">
-        <div class="container">
+   <div class="box">
+    <div class="container">
 
-            <div class="top">
-                <header>CONNEXION</header>
+        <div class="top">
+            <header>CONNEXION</header>
+        </div>
+
+        <div class="input-field">
+            <input type="text" class="input" placeholder="Username" id="username">
+            <i class='bx bx-user' ></i>
+        </div>
+
+        <div class="input-field">
+            <input type="password" class="input" placeholder="Password" id="password">
+            <i class='bx bx-lock-alt'></i>
+        </div>
+
+        <div class="input-field">
+            <input type="submit" class="submit" value="Login" id="loginButton">
+        </div>
+        <div id="message-container" class="error-message"></div>
+
+        <div class="two-col">
+            <div class="one">
+              <input type="checkbox" name="" id="check">
+              <label for="check"> Souviens-toi de moi</label>
             </div>
-
-            <div class="input-field">
-                <input type="text" class="input" placeholder="Username" id="username">
-                <i class='bx bx-user' ></i>
-            </div>
-
-            <div class="input-field">
-                <input type="password" class="input" placeholder="Password" id="password">
-                <i class='bx bx-lock-alt'></i>
-            </div>
-
-            <div class="input-field">
-                <input type="submit" class="submit" value="Login" id="loginButton">
-            </div>
-            <div id="message-container" class="error-message"></div>
-
-            <div class="two-col">
-                <div class="one">
-                  <input type="checkbox" name="" id="check">
-                  <label for="check"> Souviens-toi de moi</label>
-                </div>
-                <div class="two">
-                    <label><a href="#">Mot de passe oublié ?</a></label>
-                </div>
+            <div class="two">
+                <label><a href="#">Mot de passe oublié ?</a></label>
             </div>
         </div>
     </div>
+</div>
 
 <script src="js/authentification.js"></script>
+
 </body>
 </html>
