@@ -3,10 +3,9 @@ document.addEventListener('DOMContentLoaded', () => {
 
   const getProperties = async () => {
     try {
-      const response = await fetch('http://localhost:3000/api/electromenager/?=');
+      const response = await fetch('http://localhost:3000/api/electromenager');
       const data = await response.json();
-      console.log(data);
-
+      
       data.forEach(property => {
         const propertyItem = document.createElement('div');
         propertyItem.className = 'col-lg-4 col-md-6 wow fadeInUp';
@@ -23,151 +22,160 @@ document.addEventListener('DOMContentLoaded', () => {
               </div>
               <p class="text-body mb-3"><i class="bi bi-geo-alt-fill"></i> ${property.location}</p>
               <div class="d-flex justify-content-between">
-                <button class="btn btn-sm btn-primary rounded py-2 px-4 modifier-btn">Modifier</button>
-                <button class="btn btn-sm btn-dark rounded py-2 px-4 supprimer-btn">Supprimer</button>
+                <a type="button" class="btn btn-sm btn-primary rounded py-2 px-4" href="" data-bs-toggle="modal" data-bs-target="#${property.id}">Modifier</a>
+                <a class="btn btn-sm btn-dark rounded py-2 px-4" data-bs-toggle="modal" data-bs-target="#confirm-delete-${property.id}">Supprimer</a>
               </div>
             </div>
           </div>
+          <!-- Button trigger modal -->
+
+          
+          <!-- Modal -->
+          <div class="modal fade" id="${property.id}" data-bs-backdrop="static" data-bs-keyboard="false" tabindex="-1" aria-labelledby="staticBackdropLabel" aria-hidden="true">
+              <div class="modal-dialog">
+              <div class="modal-content">
+                  <div class="modal-header">
+                  <h1 class="modal-title fs-5" id="staticBackdropLabel">Modal title</h1>
+                  <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                  </div>
+                  <div class="modal-body">
+                  <form id="property-form-${property.id}">
+                    <div class="mb-3">
+                      <label for="title-${property.id}" class="form-label">Titre</label>
+                      <input type="text" class="form-control" id="title-${property.id}" data-product-id="${property.id}" placeholder="Entrez le titre" value="${property.title}">
+                    </div>
+                    <div class="mb-3">
+                      <label for="price-${property.id}" class="form-label">Prix</label>
+                      <input type="text" class="form-control" id="price-${property.id}" data-product-id="${property.id}"placeholder="Entrez le prix" value="${property.price}">
+                    </div>
+                    <div class="mb-3">
+                      <label for="location-${property.id}" class="form-label">Localisation</label>
+                      <input type="text" class="form-control" id="location-${property.id}" data-product-id="${property.id}" placeholder="Entrez la localisation" value="${property.location}">
+                    </div>
+                    <div class="mb-3">
+                      <label for="image-${property.id}" class="form-label">Image</label>
+                      <input type="text" class="form-control" id="image-${property.id}" data-product-id="${property.id}" placeholder="Entrer l'url de l'image" value="${property.image}">
+                    </div>
+                  </form>
+                  </div>
+                  <div class="modal-footer">
+                  <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Annuler</button>
+                  <button type="button" class="btn btn-primary" onclick="saveChanges(${property.id})" data-bs-dismiss="modal">Envoyer</button>
+                  </div>
+              </div>
+              </div>
+          </div>
+            <!-- Confirm Delete Modal -->
+            <div class="modal fade" id="confirm-delete-${property.id}" data-bs-backdrop="static" data-bs-keyboard="false" tabindex="-1" aria-labelledby="staticBackdropLabel" aria-hidden="true">
+                <div class="modal-dialog">
+                <div class="modal-content">
+                    <div class="modal-header">
+                    <h1 class="modal-title fs-5" id="staticBackdropLabel">Confirmation de Suppression</h1>
+                    <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                    </div>
+                    <div class="modal-body">
+                    <p>Voulez-vous vraiment supprimer le produit ?</p>
+                    </div>
+                    <div class="modal-footer">
+                    <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Annuler</button>
+                    <button type="button" class="btn btn-danger" onclick="supprimerProduit(${property.id})" data-bs-dismiss="modal">Supprimer</button>
+                    </div>
+                </div>
+                </div>
+            </div>
         `;
         propertyList.appendChild(propertyItem);
-
-        // Récupérer les boutons "Modifier" et "Supprimer" par leur classe
-        const modifierButton = propertyItem.querySelector('.modifier-btn');
-        const supprimerButton = propertyItem.querySelector('.supprimer-btn');
-
-        // Ajouter des écouteurs d'événements de clic aux boutons
-        modifierButton.addEventListener('click', () => {
-          // Afficher le formulaire de modification
-          afficherFormulaireModification(property);
-        });
-
-        supprimerButton.addEventListener('click', () => {
-          // Afficher le formulaire de suppression
-          afficherFormulaireSuppression(property);
-        });
       });
     } catch (error) {
-      console.error('Erreur lors de la récupération des propriétés :', error);
+      console.error('Erreur lors de la récupération des produits electromenagers :', error);
     }
   };
 
-  const afficherFormulaireModification = (property) => {
-    const popup = createPopup();
-    const formulaireModification = createForm(`
-      <h3>Modifier la propriété</h3>
-      <label for="titre">Titre :</label>
-      <div>
-        <span>${property.title}</span>
-        <input type="text" id="titre" value="">
-      </div>
-      <label for="image">Image :</label>
-      <div>
-        <span>${property.image}</span>
-        <input type="text" id="image" value="">
-      </div>
-      <label for="prix">Prix :</label>
-      <div>
-        <span>${property.price}</span>
-        <input type="text" id="prix" value="">
-      </div>
-      <label for="emplacement">Emplacement :</label>
-      <div>
-        <span>${property.location}</span>
-        <input type="text" id="emplacement" value="">
-      </div>
-      <button id="enregistrerModification">Enregistrer</button>
-    `);
-  
-    popup.appendChild(formulaireModification);
-  
-    // Gérer le clic sur le bouton "Enregistrer"
-    const enregistrerModificationButton = formulaireModification.querySelector('#enregistrerModification');
-    enregistrerModificationButton.addEventListener('click', () => {
-      // Récupérer les valeurs modifiées du formulaire
-      const titre = formulaireModification.querySelector('#titre').value;
-      const image = formulaireModification.querySelector('#image').value;
-      const prix = formulaireModification.querySelector('#prix').value;
-      const emplacement = formulaireModification.querySelector('#emplacement').value;
-  
-      // Effectuer des actions de mise à jour en fonction des valeurs modifiées (par exemple, envoyer une requête au serveur)
-  
-      // Cacher la popup modale après la soumission
-      popup.style.display = 'none';
-    });
-  };
-  
-
-  const afficherFormulaireSuppression = (property) => {
-    const popup = createPopup();
-    const formulaireSuppression = createForm(`
-      <h3>Supprimer le produit</h3>
-      <p>Êtes-vous sûr de vouloir supprimer cet produit ?</p>
-      <button id="confirmerSuppression">Confirmer</button>
-    `);
-
-    popup.appendChild(formulaireSuppression);
-    
-
-    // Gérer le clic sur le bouton "Confirmer"
-    const confirmerSuppressionButton = formulaireSuppression.querySelector('#confirmerSuppression');
-    confirmerSuppressionButton.addEventListener('click', () => {
-      // Effectuer des actions de suppression en fonction de l'ID de la propriété (par exemple, envoyer une requête au serveur)
-
-      // Supprimer l'élément de propriété de la liste après la suppression
-      const propertyItem = propertyList.querySelector(`#modifier-${property.id}`).closest('.room-item');
-      propertyList.removeChild(propertyItem);
-
-      // Cacher la popup modale après la suppression
-      popup.style.display = 'none';
-    });
-  };
-
-
-  const createPopup = () => {
-    const popup = document.createElement('div');
-    popup.style.display = 'flex';
-    popup.style.position = 'fixed';
-    popup.style.zIndex = '1';
-    popup.style.left = '0';
-    popup.style.top = '0';
-    popup.style.width = '100%';
-    popup.style.height = '100%';
-    popup.style.backgroundColor = 'rgba(0, 0, 0, 0.5)';
-    popup.style.justifyContent = 'center';
-    popup.style.alignItems = 'center';
-    document.body.appendChild(popup);
-
-    const popupContent = document.createElement('div');
-    popupContent.style.backgroundColor = 'white';
-    popupContent.style.padding = '20px';
-    popupContent.style.border = '1px solid #888';
-    popupContent.style.width = '80%';
-    popupContent.style.maxWidth = '600px';
-    popup.appendChild(popupContent);
-
-    const closeBtn = document.createElement('span');
-    closeBtn.innerHTML = '&times;';
-    closeBtn.style.color = '#aaa';
-    closeBtn.style.float = 'right';
-    closeBtn.style.fontSize = '28px';
-    closeBtn.style.fontWeight = 'bold';
-    closeBtn.style.cursor = 'pointer';
-    popupContent.appendChild(closeBtn);
-
-    closeBtn.addEventListener('click', () => {
-      popup.style.display = 'none';
-    });
-
-    return popupContent;
-  };
-
-  const createForm = (content) => {
-    const form = document.createElement('div');
-    form.innerHTML = content;
-    return form;
-  };
-
-  // Appel de la fonction pour récupérer les propriétés
   getProperties();
 });
 
+function parseJwt (token) {
+    var base64Url = token.split('.')[1];
+    var base64 = base64Url.replace(/-/g, '+').replace(/_/g, '/');
+    var jsonPayload = decodeURIComponent(window.atob(base64).split('').map(function(c) {
+        return '%' + ('00' + c.charCodeAt(0).toString(16)).slice(-2);
+    }).join(''));
+  
+    return JSON.parse(jsonPayload);
+  }
+
+function saveChanges(propertyId) {
+
+  const propertyForm = document.querySelector(`#property-form-${propertyId}`);
+  const title = propertyForm.querySelector(`#title-${propertyId}`).value;
+  const price = propertyForm.querySelector(`#price-${propertyId}`).value;
+  const location = propertyForm.querySelector(`#location-${propertyId}`).value;
+  const image = propertyForm.querySelector(`#image-${propertyId}`).value;
+  // const id_bien = button.getAttribute('data-product-id');
+  const id_bien = propertyId;
+
+  const token = localStorage.getItem("token");
+  const decodedToken = parseJwt(token)
+
+  const id_editeur = decodedToken.id_user
+  const service = "electromenager";
+
+  const formData = {
+    title,
+    price,
+    location,
+    image,
+    id_editeur,
+    id_bien,
+    service
+  };
+
+  fetch('http://localhost:3000/api/modification', {
+    method: 'POST',
+    headers: {
+      'Content-Type': 'application/json'
+    },
+    body: JSON.stringify(formData)
+  })
+    .then(response => response.json())
+    .then(data => {
+      console.log('Modification enregistrer:', data);
+      // Vous pouvez effectuer d'autres actions ici après avoir enregistré les modifications
+    })
+    .catch(error => {
+      console.error('Erreur lors de la sauvegarde des modifications:', error);
+    });
+}
+
+
+
+function supprimerProduit(propertyId) {
+    const id_bien = propertyId;
+    const token = localStorage.getItem("token");
+    const decodedToken = parseJwt(token)
+  
+    const id_editeur = decodedToken.id_user
+    const service = "electromenager";
+  
+    const data_ = {
+      id_bien,
+      id_editeur,
+      service
+    }; 
+    fetch('http://localhost:3000/api/suppression', {
+      method: 'POST',
+      headers: {
+        'Content-Type': 'application/json'
+      },
+      body: JSON.stringify(data_)
+    })
+      .then(response => response.json())
+      .then(data => {
+        console.log('Suppression  enregistrer:', data);
+        // Vous pouvez effectuer d'autres actions ici après avoir enregistré les modifications
+      })
+      .catch(error => {
+        console.error('Erreur lors de la sauvegarde de suppression:', error);
+    });
+  
+  }

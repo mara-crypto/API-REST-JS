@@ -17,7 +17,7 @@ const login = async (req, res) => {
         res.status(403).json({ message: "Paire mail / mot de passe incorrect" });
       } else {
         // Stocker les informations de session dans le token d'authentification
-        const token = jwt.sign({ full_name: user.full_name, role: user.role }, 'secret-key', { expiresIn: '1h' });
+        const token = jwt.sign({ full_name: user.full_name, role: user.role, id_user: user.id }, 'secret-key', { expiresIn: '1h' });
 
         // Ajouter le token aux informations renvoyées
         res.status(200).json({ message: "Info utilisateur récupéré avec succès.", user_name: user.full_name, user_role: user.role, token: token });

@@ -67,6 +67,7 @@ document.addEventListener('DOMContentLoaded', function() {
     se_connecter.style.display = 'block';
     username_deconnecter.style.display = 'none';
     username.textContent = '';
+    username.value
   }
 
   // Fonction pour extraire le nom d'utilisateur à partir du token
