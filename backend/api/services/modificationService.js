@@ -19,6 +19,17 @@ const modificationService = {
     }
   },
 
+  getAllModificationsEditeur: async (id_editeur) => {
+    try {
+      const query = 'SELECT * FROM modification WHERE id_editeur = $1';
+      const value = [id_editeur]
+      const result = await pool.query(query, value);
+      return result.rows;
+    } catch (error) {
+      throw error;
+    }
+  },
+
   createModification: async (modificationData) => {
     try {
       const {

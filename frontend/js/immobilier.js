@@ -60,7 +60,7 @@ document.addEventListener('DOMContentLoaded', () => {
                   </div>
                   <div class="modal-footer">
                   <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Annuler</button>
-                  <button type="button" class="btn btn-primary" onclick="saveChanges(${property.id})">Envoyer</button>
+                  <button type="button" class="btn btn-primary" onclick="saveChanges(${property.id})" data-bs-dismiss="modal">Envoyer</button>
                   </div>
               </div>
               </div>
@@ -78,7 +78,7 @@ document.addEventListener('DOMContentLoaded', () => {
                     </div>
                     <div class="modal-footer">
                     <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Annuler</button>
-                    <button type="button" class="btn btn-danger" onclick="supprimerProduit(${property.id})">Supprimer</button>
+                    <button type="button" class="btn btn-danger" onclick="supprimerProduit(${property.id})" data-bs-dismiss="modal">Supprimer</button>
                     </div>
                 </div>
                 </div>
