@@ -1,8 +1,10 @@
 <!DOCTYPE html>
 <html lang="fr">
+<html lang="fr">
 
 <head>
     <meta charset="utf-8">
+    <title>FAST API SN</title>
     <title>FAST API SN</title>
     <meta content="width=device-width, initial-scale=1.0" name="viewport">
     <meta content="" name="keywords">
@@ -48,6 +50,7 @@
                 <div class="col-lg-3 bg-dark d-none d-lg-block">
                     <a href="index.html" class="navbar-brand w-100 h-100 m-0 p-0 d-flex align-items-center justify-content-center">
                         <h1 class="m-0 text-primary text-uppercase">FAST API SN</h1>
+                        <h1 class="m-0 text-primary text-uppercase">FAST API SN</h1>
                     </a>
                 </div>
                 <div class="col-lg-9">
@@ -59,6 +62,7 @@
                             </div>
                             <div class="h-100 d-inline-flex align-items-center py-2">
                                 <i class="fa fa-phone-alt text-primary me-2"></i>
+                                <p class="mb-0">+221 78 371 94 45</p>
                                 <p class="mb-0">+221 78 371 94 45</p>
                             </div>
                         </div>
@@ -75,6 +79,7 @@
                     <nav class="navbar navbar-expand-lg bg-dark navbar-dark p-3 p-lg-0">
                         <a href="index.html" class="navbar-brand d-block d-lg-none">
                             <h1 class="m-0 text-primary text-uppercase">FAST API SN</h1>
+                            <h1 class="m-0 text-primary text-uppercase">FAST API SN</h1>
                         </a>
                         <button type="button" class="navbar-toggler" data-bs-toggle="collapse" data-bs-target="#navbarCollapse">
                             <span class="navbar-toggler-icon"></span>
@@ -84,9 +89,16 @@
                                 <a href="index.html" class="nav-item nav-link">Accueil</a>
                                 <a href="#" class="nav-item nav-link" id="propositonlink">Propositons</a>
                                 <a href="#" class="nav-item nav-link" id="tableau_de_bord">Tableau de Bord</a>
+                                <a href="index.html" class="nav-item nav-link active">Accueil</a>
+                                <a href="#" class="nav-item nav-link">Propositons</a>
+                                <a href="#" class="nav-item nav-link">Tableau de Bord</a>
                                 <div class="nav-item dropdown">
                                     <a href="#" class="nav-link dropdown-toggle" data-bs-toggle="dropdown">Services</a>
+                                    <a href="#" class="nav-link dropdown-toggle" data-bs-toggle="dropdown">Services</a>
                                     <div class="dropdown-menu rounded-0 m-0">
+                                        <a href="electromenager.html" class="dropdown-item">Electromenagers</a>
+                                        <a href="electronique.html" class="dropdown-item">Electroniques</a>
+                                        <a href="immobilier.html" class="dropdown-item">Immobiliers</a>
                                         <a href="electromenager.html" class="dropdown-item">Electromenagers</a>
                                         <a href="electronique.html" class="dropdown-item">Electroniques</a>
                                         <a href="immobilier.html" class="dropdown-item">Immobiliers</a>
@@ -101,7 +113,18 @@
                                   <li><hr class="dropdown-divider"></li>
                                   <li><a class="dropdown-item" id="deconnecter" href="#">Se Deconnecter</a></li>
                                 </ul>
+                                <a href="contact.html" class="nav-item nav-link">Contact</a>
                             </div>
+                            <div class="dropdown btn btn-primary rounded-0 py-4 px-md-5" id="username_deconnecter" style="display: none; margin-right: 2%;">
+                                <button id="username" class="btn btn-secondary dropdown-toggle" type="button" data-bs-toggle="dropdown" aria-expanded="false"></button>
+                                <ul class="dropdown-menu dropdown-menu-dark">
+                                  <li><a class="dropdown-item active" href="#">Mon Profil</a></li>
+                                  <li><hr class="dropdown-divider"></li>
+                                  <li><a class="dropdown-item" id="deconnecter" href="#">Se Deconnecter</a></li>
+                                </ul>
+                            </div>
+                            <!-- <a href="electronique.html" class="btn btn-primary rounded-0 py-4 px-md-5" id="username" style="display: none; margin-right: 2%;"></a> -->
+                            <a href="login.html" class="btn btn-primary rounded-0 py-4 px-md-5" id="se_connecter">Se Connecter</a>
                             <!-- <a href="electronique.html" class="btn btn-primary rounded-0 py-4 px-md-5" id="username" style="display: none; margin-right: 2%;"></a> -->
                             <a href="login.html" class="btn btn-primary rounded-0 py-4 px-md-5" id="se_connecter">Se Connecter</a>
                         </div>
@@ -290,7 +313,7 @@
             <br>
         </div>
         <!-- Footer End -->
-
+        
 
         <!-- Back to Top -->
         <a href="#" class="btn btn-lg btn-primary btn-lg-square back-to-top"><i class="bi bi-arrow-up"></i></a>
@@ -313,31 +336,8 @@
     <script src="js/token.js"></script>
     <script src="js/affiche_page.js"></script>
 
-    <script>
-        async function fetchAndDisplayData() {
-            try {
-                const response = await fetch('http://localhost:3000/api/electromenager');
-                if (response.ok) {
-                    const data = await response.json();
+    <script src="js/token.js"></script>
 
-                    const dataContainer = document.querySelector('#dataContainer');
-
-                    let html = '';
-                    data.forEach((item) => {
-                        html += `<p>${item.name} - ${item.brand} - ${item.price}</p>`;
-                    });
-
-                    dataContainer.innerHTML = html;
-                } else {
-                    throw new Error('Erreur lors de la récupération des données de l\'API');
-                }
-            } catch (error) {
-                console.error(error);
-            }
-        }
-        fetchAndDisplayData();
-
-    </script>
 
     
 </body>

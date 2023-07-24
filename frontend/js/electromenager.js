@@ -1,12 +1,26 @@
 document.addEventListener('DOMContentLoaded', () => {
   const propertyList = document.querySelector('#property-list');
+  let data = [];
 
   const getProperties = async () => {
     try {
       const response = await fetch('http://localhost:3000/api/electromenager');
-      const data = await response.json();
-      
-      data.forEach(property => {
+      data = await response.json();
+
+      console.log('Données récupérées :');
+
+      // Afficher les premiers 100 éléments
+      showNextBatch();
+    } catch (error) {
+      console.error('Erreur lors de la récupération des produits electroniques :', error);
+    }
+  };
+
+  const showNextBatch = () => {
+    const batchSize = 100;
+    const currentBatch = data.splice(0, batchSize); // Prendre les 100 prochains éléments
+
+    currentBatch.forEach(property => {
         const propertyItem = document.createElement('div');
         propertyItem.className = 'col-lg-4 col-md-6 wow fadeInUp';
         propertyItem.setAttribute('data-wow-delay', '0.1s');
@@ -84,15 +98,57 @@ document.addEventListener('DOMContentLoaded', () => {
                 </div>
             </div>
         `;
+        boutonSupprimerModifier();
         propertyList.appendChild(propertyItem);
       });
-    } catch (error) {
-      console.error('Erreur lors de la récupération des produits electromenagers :', error);
-    }
-  };
-
+    } ;
   getProperties();
+
+  // Chargement du lot suivant lorsque l'utilisateur fait défiler la page
+  window.addEventListener('scroll', () => {
+    const distanceToBottom = document.documentElement.offsetHeight - (window.scrollY + window.innerHeight);
+    if (distanceToBottom < 200) {
+      showNextBatch();
+    }
+  });
+
+  function boutonSupprimerModifier() {
+    const token = localStorage.getItem('token');
+
+    if (token != null) {
+      const decodedToken = parseJwt(token);
+      const role = decodedToken.role;
+    
+      const propertyItems = document.querySelectorAll('.room-item');
+
+      
+      propertyItems.forEach(propertyItem => {
+        const modifierButton = propertyItem.querySelector('.btn-primary');
+        const deleteButton = propertyItem.querySelector('.btn-dark');
+
+
+    
+        if (role === "admin") {
+          deleteButton.style.display = "none";
+          modifierButton.style.display = "none";
+        } else {
+          deleteButton.style.display = "block";
+          modifierButton.style.display = "block";
+        }
+      });
+    } else {
+      // Si le token est null, désactiver tous les boutons
+      const propertyItems = document.querySelectorAll('.room-item');
+      propertyItems.forEach(propertyItem => {
+        const modifierButton = propertyItem.querySelector('.btn-primary');
+        const deleteButton = propertyItem.querySelector('.btn-dark');
+        deleteButton.style.display = "none";
+        modifierButton.style.display = "none";
+      });
+    }
+  }
 });
+
 
 function parseJwt (token) {
     var base64Url = token.split('.')[1];
