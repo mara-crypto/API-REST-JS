@@ -30,6 +30,17 @@ const modificationService = {
     }
   },
 
+  deleteModifications: async (id) => {
+    try {
+      const query = 'DELETE FROM modification WHERE id = $1';
+      const value = [id]
+      const result = await pool.query(query, value);
+      return result.rows;
+    } catch (error) {
+      throw error;
+    }
+  },
+
   createModification: async (modificationData) => {
     try {
       const {
