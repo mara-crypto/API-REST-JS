@@ -15,6 +15,6 @@ const role = parseJwt(token).role;
 if (role === "editeur"){
     href_proposition.setAttribute("href","proposition.html");
 } else {
-    href_tableau_de_bord.setAttribute("href", "tableau_de_bord.html");
+    href_tableau_de_bord.setAttribute("href", "dashboard/index.html");
 };
        
