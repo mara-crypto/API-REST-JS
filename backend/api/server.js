@@ -3,16 +3,7 @@ const http = require('http');
 const cors = require('cors');
 const path = require('path');
 
-const modificationRoutes = require('./routes/modificationRoutes'); // Importer les routes de modification
-const suppressionRoutes = require('./routes/suppressionRoutes'); // Importer les routes de suppression
-
-const electroniqueRoutes = require('./routes/electroniqueRoutes');
-const electromenagerRoutes = require('./routes/electromenagerRoutes');
 const immobilierRoutes = require('./routes/immobilierRoutes');
-const userRoute = require('./routes/userRoute');
-const authRoutes = require('./routes/authRoutes');
-const Proposition = require('./routes/propositionRoute');
-
 
 const app = express();
 const server = http.createServer(app);
@@ -24,21 +15,7 @@ app.use(express.json());
 app.use(express.static(path.join(__dirname, '../frontend')));
 
 // Routes pour les différentes ressources
-app.use('/api/electroniques', electroniqueRoutes);
 app.use('/api/immobilier', immobilierRoutes);
-app.use('/api/user', userRoute);
-
-// Routes pour la modification et la suppression des biens immobiliers
-app.use('/api/modification', modificationRoutes);
-app.use('/api/suppression', suppressionRoutes);
-app.use('/api/electromenager', electromenagerRoutes);
-app.use('/api/user', userRoute)
-// ...authentification
-app.use('/api/auth', authRoutes);
-app.use('/api/proposition', Proposition);
-
-
-
 
 const normalizePort = val => {
   const port = parseInt(val, 10);

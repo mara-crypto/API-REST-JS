@@ -179,3 +179,4 @@ function supprimerProduit(propertyId) {
     });
   
   }
+F
