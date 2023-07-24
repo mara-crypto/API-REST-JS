@@ -8,7 +8,7 @@ const pool = new Pool({
     password: '12345',
     host: '127.0.0.1',
     port: 5432, // Le port par défaut de PostgreSQL est 5432
-    database: 'api',
+    database: 'API',
   });
   const postUser = async (mail) => {
     try {
