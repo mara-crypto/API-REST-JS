@@ -8,7 +8,6 @@
     <title></title>
     <!-- ======= Styles ====== -->
     <link rel="stylesheet" href="assets/css/style.css">
-
     <script src="https://d3js.org/d3.v7.min.js"></script>
 
 </head>
@@ -192,8 +191,10 @@
             </div>
 
             <!-- ================ Order Details List ================= -->
-            <div class="details">
-                <svg id="chart" width="600" height="500" style="margin-left: 50px;"></svg>
+            <div class="details" id="chart">
+                <!-- <span>ici nous allons afficher un graphe D3</span> -->
+            <div class="detailss">
+                <svg id="chart1" width="600" height="500" style="margin-left: 50px;"></svg>
                 <svg id="pie-chart-localisation" width="600" height="500" style="margin-left: 50px;"></svg>
                 <svg id="pie-chart-prix" width="600" height="500" style="margin-left: 50px;"></svg>
                 <svg id="bar-chart-localisation" width="600" height="500" style="margin-left: 50px;"></svg>
@@ -239,6 +240,68 @@
         })
         .catch(error => console.error('Erreur lors de la récupération des biens ', error));
     </script>
+    <script>
+        // Récupérer les données depuis les APIs
+        Promise.all([
+          fetch('http://localhost:3000/api/immobilier').then(response => response.json()),
+          fetch('http://localhost:3000/api/electroniques').then(response => response.json()),
+          fetch('http://localhost:3000/api/electromenager').then(response => response.json())
+        ]).then(([immobilierData, electroniquesData, electromenagerData]) => {
+          // Créer l'objet "data" avec les valeurs récupérées
+          const data = [
+            { label: "Immobilier", value: immobilierData.length },
+            { label: "Électroniques", value: electroniquesData.length },
+            { label: "Électroménager", value: electromenagerData.length }
+          ];
+    
+          // Dimensions du diagramme
+          const width = 400;
+          const height = 400;
+          const radius = Math.min(width, height) / 2;
+    
+          // Couleurs à utiliser pour les secteurs
+          const colors = d3.scaleOrdinal(d3.schemeCategory10);
+    
+          // Sélection de la zone où le diagramme sera rendu
+          const svg = d3.select("#chart")
+            .append("svg")
+            .attr("width", width)
+            .attr("height", height)
+            .append("g")
+            .attr("transform", `translate(${width / 2}, ${height / 2})`);
+    
+          // Création de l'objet "pie" (pour calculer les angles des secteurs en fonction des valeurs)
+          const pie = d3.pie()
+            .value(d => d.value)
+            .sort(null);
+    
+          // Création des arcs pour chaque secteur
+          const arc = d3.arc()
+            .innerRadius(0)
+            .outerRadius(radius);
+    
+          // Création des secteurs du diagramme
+          const arcs = svg.selectAll("arc")
+            .data(pie(data))
+            .enter()
+            .append("g")
+            .attr("class", "arc");
+    
+          // Ajout des chemins pour chaque secteur
+          arcs.append("path")
+            .attr("d", arc)
+            .attr("fill", (d, i) => colors(i));
+    
+          // Ajout des étiquettes
+          arcs.append("text")
+            .attr("transform", d => `translate(${arc.centroid(d)})`)
+            .attr("text-anchor", "middle")
+            .text(d => d.data.label);
+        })
+        .catch(error => console.error('Erreur lors de la récupération des données:', error));
+      </script>
+        
+    
 
     <script>
         fetch('http://localhost:3000/api/user')

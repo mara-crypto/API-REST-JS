@@ -3,14 +3,15 @@ const http = require('http');
 const cors = require('cors');
 const path = require('path');
 
-const immobilierRoutes = require('./routes/immobilierRoutes');
+const modificationRoutes = require('./routes/modificationRoutes'); // Importer les routes de modification
+const suppressionRoutes = require('./routes/suppressionRoutes'); // Importer les routes de suppression
+
 const electroniqueRoutes = require('./routes/electroniqueRoutes');
-const electromenagerRoutes = require('./routes/electromenagerRoutes')
+const electromenagerRoutes = require('./routes/electromenagerRoutes');
+const immobilierRoutes = require('./routes/immobilierRoutes');
 const userRoute = require('./routes/userRoute');
 const authRoutes = require('./routes/authRoutes');
 const Proposition = require('./routes/propositionRoute');
-const suppressionRoutes = require('./routes/suppressionRoutes');
-const modificationRoutes = require('./routes/modificationRoutes');
 
 
 const app = express();
@@ -31,7 +32,7 @@ app.use('/api/user', userRoute);
 app.use('/api/modification', modificationRoutes);
 app.use('/api/suppression', suppressionRoutes);
 app.use('/api/electromenager', electromenagerRoutes);
-app.use('/api/user', userRoute);
+app.use('/api/user', userRoute)
 // ...authentification
 app.use('/api/auth', authRoutes);
 app.use('/api/proposition', Proposition);
