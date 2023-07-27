@@ -64,7 +64,7 @@ async function createBarChart() {
   
     // Créer l'élément svg pour le graphique
     const svg = d3
-      .select("#chart")
+      .select("#chart1")
       .append("g")
       .attr("transform", `translate(${margin.left},${margin.top})`);
   
