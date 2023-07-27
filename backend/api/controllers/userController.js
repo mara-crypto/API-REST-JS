@@ -29,6 +29,21 @@ const login = async (req, res) => {
   }
 };
 
+const getUser = async (req, res) => {
+  try {
+    const user = await userController.getUser();
+    if (!user) {
+      return res.status(404).json({ error: "user non trouvé." });
+    }
+    res.json(user);
+  } catch (error) {
+    res.status(500).json({ error: "Une erreur est survenue lors de la récupération de l'utilisater." , message: error.message});
+  }
+};
+
+
+
 module.exports = {
   login,
+  getUser,
 };

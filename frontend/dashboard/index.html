@@ -8,6 +8,9 @@
     <title></title>
     <!-- ======= Styles ====== -->
     <link rel="stylesheet" href="assets/css/style.css">
+
+    <script src="https://d3js.org/d3.v7.min.js"></script>
+
 </head>
 
 <body>
@@ -90,11 +93,11 @@
                 </li>
 
                 <li>
-                    <a href="#">
+                    <a href="../index.html">
                         <span class="icon">
                             <ion-icon name="help-outline"></ion-icon>
                         </span>
-                        <span class="title">Help</span>
+                        <span class="title">Accueil</span>
                     </a>
                 </li>
 
@@ -134,7 +137,7 @@
             <div class="cardBox">
                 <div class="card">
                     <div>
-                        <div class="numbers">2</div>
+                        <div class="numbers" id="total-users">Chargement en cours...</div>
                         <div class="cardName">Utilisateur</div>
                     </div>
 
@@ -190,13 +193,17 @@
 
             <!-- ================ Order Details List ================= -->
             <div class="details">
-                <span>ici nous allons afficher un graphe D3</span>
+                <svg id="chart" width="600" height="500" style="margin-left: 50px;"></svg>
+                <svg id="pie-chart-localisation" width="600" height="500" style="margin-left: 50px;"></svg>
+                <svg id="pie-chart-prix" width="600" height="500" style="margin-left: 50px;"></svg>
+                <svg id="bar-chart-localisation" width="600" height="500" style="margin-left: 50px;"></svg>
             </div>
         </div>
     </div>
 
     <!-- =========== Scripts =========  -->
     <script src="assets/js/main.js"></script>
+    <script src="assets/js/d3.js"></script>
 
     <!-- ====== ionicons ======= -->
     <script type="module" src="https://unpkg.com/ionicons@5.5.2/dist/ionicons/ionicons.esm.js"></script>
@@ -231,6 +238,16 @@
             totalElectromenagerElement.textContent = `${data.length}`;
         })
         .catch(error => console.error('Erreur lors de la récupération des biens ', error));
+    </script>
+
+    <script>
+        fetch('http://localhost:3000/api/user')
+        .then(response => response.json())
+        .then(data => {
+            const totalElectromenagerElement = document.getElementById('total-users');
+            totalElectromenagerElement.textContent = `${data.length}`;
+        })
+        .catch(error => console.error('Erreur lors de la récupération des utilsateurs ', error));
     </script>
     
 </body>
